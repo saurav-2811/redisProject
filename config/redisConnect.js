@@ -20,3 +20,6 @@ module.exports.redisClientGet =async(key)=>{
 module.exports.redisClientSet =async(key,value)=>{
   return redisClient.set(key,value)
 }
+module.exports.redisClientFlushAll =async()=>{
+  return redisClient.flushAll()
+}

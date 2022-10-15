@@ -1,13 +1,18 @@
 const express = require("express");
 const { PORT } = require("./config/config");
 const { connectDb } = require("./config/connectDb");
-const { redisConnect } = require("./config/redisConnect");
+const { redisConnect, redisClientFlushAll } = require("./config/redisConnect");
 const imagesRoute = require("./router/image.route");
+const cron = require("node-cron");
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+cron.schedule("*/45 * * * * ", () => {
+   redisClientFlushAll();
+  console.log("cache cleaned");
+});
 app.use("/", imagesRoute);
 (async () => {
   try {
